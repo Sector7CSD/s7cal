@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <iostream>
 #include <utility>
+#include "i18n.h"
 
 Calendar::Calendar(int year, int month, bool threeMonthView, bool yearView, bool showWeekNumbers, Userconfig * pConfig)
     : year(year), month(month), threeMonthView(threeMonthView), yearView(yearView), showWeekNumbers(showWeekNumbers), pConfig(pConfig)
@@ -77,10 +78,10 @@ void Calendar::print()
 std::stringstream Calendar::printMonth(int aMonth, int aYear)
 {
     static const std::string monthNamesDE[] = {"",
-                                               "Januar",   "Februar",   "März",         // Q1
-                                               "April",   "Mai",      "Juni",           // Q2
-                                               "Juli",    "August",   "September",      // Q3
-                                               "Oktober", "November", "Dezember"};    // Q4
+                                               _("January"),  _("February"), _("March"),       // Q1
+                                               _("April"),    _("May"),      _("June"),        // Q2
+                                               _("July"),     _("August"),   _("September"),   // Q3
+                                               _("October"), _("November"),_("December")};   // Q4
 
     std::stringstream ss;
     ss<<termcolor::colorize;
@@ -116,10 +117,10 @@ std::stringstream Calendar::printMonth(int aMonth, int aYear)
 
     if (showWeekNumbers)
     {
-        ss << "KW ";
+        ss << _("CW") << " ";
     }
 
-    ss << "Mo Di Mi Do Fr Sa So" << std::endl;
+    ss << _("Mo Tu We Th Fr Sa Su") << std::endl;
 
     int weekday = (first_day.tm_wday + 6) % 7; // Montag=0
     int days_in_month = 31;
@@ -210,7 +211,7 @@ bool Calendar::handleHolidays(std::stringstream & ss, int aDay, int aMonth)
     bool isHoliday = holidays.count({aMonth, aDay}) > 0;
     if (isHoliday)
     {
-        ss << termcolor::red << termcolor::bold;
+        ss << termcolor::bright_red << termcolor::bold;
     }
 
     return isHoliday;

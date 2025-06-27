@@ -2,10 +2,16 @@
 #include "userconfig.h"
 #include <CLI/CLI.hpp>
 #include <iostream>
+#include "i18n.h"
 
 int main(int argc, char **argv)
 {
+    initLocalization();
+
     CLI::App app{"s7cal"};
+    auto fmt = app.get_formatter();
+    fmt->label("POSITIONALS", _("POSITIONALS"));
+    fmt->label("OPTIONS", _("OPTIONS"));
 
     int month = 0;
     int year = 0;
@@ -13,11 +19,11 @@ int main(int argc, char **argv)
     bool yearView = false;
     bool showWeekNumbers = false;
 
-    app.add_option("year", year, "year (z.B. 2025)");
-    app.add_option("month", month, "month (1-12)");
-    app.add_flag("-3", threeMonthView, "Show three month view (includes previous and next month");
-    app.add_flag("-y", yearView, "Show the year view");
-    app.add_flag("-w", showWeekNumbers, "Show week numbers");
+    app.add_option(_("year"), year, _("year (e.g. 2025)"));
+    app.add_option(_("month"), month, _("month (1-12)"));
+    app.add_flag("-3,--three", threeMonthView, _("Show three month view (includes previous and next month)"));
+    app.add_flag("-y,--Year", yearView, _("Show the year view"));
+    app.add_flag("-w,--week", showWeekNumbers, _("Show week numbers"));
 
     CLI11_PARSE(app, argc, argv);
 

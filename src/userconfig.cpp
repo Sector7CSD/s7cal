@@ -8,6 +8,7 @@
 #include <filesystem>
 #include <iostream>
 #include <yaml-cpp/yaml.h>
+#include "i18n.h"
 
 void Userconfig::load()
 {
@@ -25,7 +26,7 @@ void Userconfig::load()
     }
     catch (const YAML::Exception &e)
     {
-        std::cerr << "Error during parsing of the configuration." << std::endl;
+        std::cerr << _("Error during parsing of the configuration.") << std::endl;
     }
 }
 

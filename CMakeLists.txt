@@ -30,7 +30,18 @@ add_executable(s7cal
         src/data.h
         src/userconfig.cpp
         src/userconfig.h
+        src/i18n.cpp
+        src/i18n.h
 )
+
+add_subdirectory(po)
+add_subdirectory(man)
+
+find_library(INTL_LIBRARY intl)
+if (INTL_LIBRARY)
+    target_link_libraries(mycal ${INTL_LIBRARY})
+endif()
+
 
 target_include_directories(s7cal PRIVATE ${termcolor_SOURCE_DIR}/include)
 
