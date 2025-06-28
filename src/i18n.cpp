@@ -4,8 +4,9 @@
 
 #include "i18n.h"
 
-void initLocalization() {
+void initLocalization(const std::string& applicationName, const std::string& dirname)
+{
     setlocale(LC_ALL, "");
-    bindtextdomain("s7cal", "/usr/share/locale");
-    textdomain("s7cal");
+    bindtextdomain(applicationName.c_str(), dirname.c_str());
+    textdomain(applicationName.c_str());
 }

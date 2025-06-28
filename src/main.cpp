@@ -6,7 +6,7 @@
 
 int main(int argc, char **argv)
 {
-    initLocalization();
+    initLocalization("s7cal");
 
     CLI::App app{"s7cal"};
     auto fmt = app.get_formatter();

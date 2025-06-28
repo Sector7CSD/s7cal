@@ -6,9 +6,10 @@
 #define S7CAL_I18N_H
 
 #include <libintl.h>
-#include <locale.h>
+#include <clocale>
+#include <string>
 
-void initLocalization();
+void initLocalization(const std::string& applicationName, const std::string& dirname = "/usr/share/locale");
 
 #define _(STRING) gettext(STRING)
 #define N_(STRING) (STRING)
