@@ -30,7 +30,7 @@ displayed.
 
 # CONFIGURATION
 
-In $HOME/.config/s7cal/config.ymal you can store birthdays and vacations. 
+In $HOME/.config/s7cal/config.yaml you can store birthdays and vacations. 
 Birthdays will appear in italics and using yellow colors. 
 Vacations will appear in underscore and using green color.
 However, the colors will be overwritten by holidays and weekends, which are bold light red and dark red.
