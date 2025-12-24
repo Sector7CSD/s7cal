@@ -1,7 +1,6 @@
 #include "calendar.h"
 #include "userconfig.h"
-#include <CLI/CLI.hpp>
-#include <iostream>
+#include "CLI/CLI.hpp"
 #include "i18n.h"
 
 int main(int argc, char **argv)
@@ -23,12 +22,14 @@ int main(int argc, char **argv)
     bool threeMonthView = false;
     bool yearView = false;
     bool showWeekNumbers = false;
+    bool showAgenda = false;
 
     app.add_option(_("year"), year, _("year (e.g. 2025)"));
     app.add_option(_("month"), month, _("month (1-12)"));
     app.add_flag("-3,--three", threeMonthView, _("Show three month view (includes previous and next month)"));
     app.add_flag("-y,--Year", yearView, _("Show the year view"));
     app.add_flag("-w,--week", showWeekNumbers, _("Show week numbers"));
+    app.add_flag("-a,--agenda", showAgenda, _("Show agenda for the selected month"));
 
     CLI11_PARSE(app, argc, argv);
 
@@ -50,7 +51,7 @@ int main(int argc, char **argv)
     Userconfig config;
     config.load();
 
-    Calendar calendar(year, month, threeMonthView, yearView, showWeekNumbers, &config);
+    Calendar calendar(year, month, threeMonthView, yearView, showWeekNumbers, showAgenda, &config);
     calendar.print();
 
     return 0;

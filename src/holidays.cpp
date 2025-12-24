@@ -1,6 +1,7 @@
 #include "holidays.h"
 #include <ctime>
 #include <tuple>
+#include "i18n.h"
 
 static std::pair<int, int> ostersonntag(int jahr)
 {
@@ -20,16 +21,16 @@ static std::pair<int, int> ostersonntag(int jahr)
     return {3, ostertag};
 }
 
-std::set<std::pair<int, int>> getHolydays(int jahr)
+std::map<std::pair<int, int>, std::string> getHolydays(int jahr)
 {
-    std::set<std::pair<int, int>> result;
+    std::map<std::pair<int, int>, std::string> result;
     // feste Feiertage
-    result.emplace(1, 1);   // Neujahr
-    result.emplace(5, 1);   // Tag der Arbeit
-    result.emplace(10, 3);  // Tag der dt. Einheit
-    result.emplace(10, 31); // Reformationstag
-    result.emplace(12, 25); // Weihnachten
-    result.emplace(12, 26);
+    result[{1, 1}] = _("New Year");
+    result[{5, 1}] = _("Labour Day");
+    result[{10, 3}] = _("Day of German Unity");
+    result[{10, 31}] = _("Reformation Day");
+    result[{12, 25}] = _("Christmas Day");
+    result[{12, 26}] = _("Boxing Day");
 
     // bewegliche Feiertage
     auto [om, od] = ostersonntag(jahr);
@@ -39,17 +40,17 @@ std::set<std::pair<int, int>> getHolydays(int jahr)
     o.tm_mday = od;
     std::mktime(&o);
 
-    auto add_rel = [&](int offset) {
+    auto add_rel = [&](int offset, const std::string& name) {
         std::tm temp = o;
         temp.tm_mday += offset;
         std::mktime(&temp);
-        result.emplace(temp.tm_mon + 1, temp.tm_mday);
+        result[{temp.tm_mon + 1, temp.tm_mday}] = name;
     };
 
-    add_rel(-2); // Karfreitag
-    add_rel(1);  // Ostermontag
-    add_rel(39); // Christi Himmelfahrt
-    add_rel(50); // Pfingstmontag
+    add_rel(-2, _("Good Friday"));
+    add_rel(1, _("Easter Monday"));
+    add_rel(39, _("Ascension Day"));
+    add_rel(50, _("Whit Monday"));
 
     return result;
 }

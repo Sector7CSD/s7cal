@@ -1,5 +1,5 @@
 #pragma once
-#include <set>
-#include <utility>
+#include <map>
+#include <string>
 
-std::set<std::pair<int, int>> getHolydays(int jahr);
+std::map<std::pair<int, int>, std::string> getHolydays(int jahr);

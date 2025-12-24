@@ -32,6 +32,9 @@ add_executable(s7cal
         src/userconfig.h
         src/i18n.cpp
         src/i18n.h
+        src/colors.cpp
+        src/colors.h
+        src/three_month_view.h
 )
 
 add_subdirectory(po)

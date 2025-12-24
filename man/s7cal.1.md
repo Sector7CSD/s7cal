@@ -20,13 +20,16 @@ displayed.
 :   Prints brief usage information.
 
 -3, \--three
-:   Show three month view (includes previous and next month)
+:   Show the three-month view (includes previous and next month)
 
 -y, \--Year
 :   Show the year view
 
 -w, \--week
 :   Show week numbers
+
+-a, \--agenda
+:   Show agenda (not available yet in year view)
 
 # CONFIGURATION
 

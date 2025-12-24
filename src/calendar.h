@@ -1,8 +1,6 @@
 #pragma once
 #include "userconfig.h"
-#include <ctime>
 #include <map>
-#include <set>
 #include <string>
 #include <vector>
 
@@ -10,7 +8,7 @@ class Calendar
 {
   public:
 
-    Calendar(int year, int month, bool threeMonthView, bool yearView, bool showWeekNumbers, Userconfig * pConfig);
+    Calendar(int year, int month, bool threeMonthView, bool yearView, bool showWeekNumbers, bool showAgenda, Userconfig * pConfig);
     void print();
 
   private:
@@ -19,17 +17,23 @@ class Calendar
     bool threeMonthView;
     bool yearView;
     bool showWeekNumbers;
+    bool showAgenda;
     Userconfig * pConfig;
 
-    std::set<std::pair<int, int>> holidays;
+    std::map<std::pair<int, int>, std::string> holidays;
 
-    std::stringstream printMonth(int aMonth, int aYear);
+    std::vector<std::string> monthNames;
 
-    static bool isSameDay(std::tm *date1, std::tm *date2);
-    static void print3Months(std::vector<std::string> left, std::vector<std::string> center, std::vector<std::string> right);
-    bool handleBirthdays(std::stringstream & ss, int aDay, int aMonth);
-    bool handleHolidays(std::stringstream &ss, int aDay, int aMonth);
-    static bool handleWeekend(std::stringstream &ss, tm date);
-    static bool handleToday(std::stringstream &ss, tm &now, tm &date);
-    bool handleVacations(std::stringstream &ss, tm date);
+    [[nodiscard]] std::stringstream printMonth(int aMonth, int aYear) const;
+    [[nodiscard]] std::stringstream printAgenda(int aMonth, int aYear);
+
+    static bool isSameDay(const std::tm *date1, const std::tm *date2);
+    static void print3Months(std::stringstream & ss, std::vector<std::string> left, std::vector<std::string> center, std::vector<std::string> right, size_t maxLineLength = 0);
+    bool handleBirthdays(std::stringstream & ss, int aDay, int aMonth) const;
+    bool handleHolidays(std::stringstream &ss, int aDay, int aMonth) const;
+    static bool handleWeekend(std::stringstream &ss, const tm &date);
+    static bool handleToday(std::stringstream &ss, const tm &now, const tm &date);
+    bool handleVacations(std::stringstream &ss, const tm &date) const;
+
+    static int daysInMonth(int year, int month) ;
 };

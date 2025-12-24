@@ -5,11 +5,9 @@
 #pragma once
 
 #include "data.h"
-#include <ctime>
 #include <string>
 #include <vector>
 #include <yaml-cpp/node/node.h>
-#include "data.h"
 
 class Userconfig
 {

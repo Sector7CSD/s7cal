@@ -108,6 +108,44 @@ msgstr "Zeige die Jahresansicht"
 msgid "Show week numbers"
 msgstr "Zeige die Wochennummern"
 
+msgid "Show agenda for the selected month"
+msgstr "Zeige die Agenda für den ausgewählten Monat"
+
 #: src/userconfig.cpp:29
 msgid "Error during parsing of the configuration."
 msgstr "Fehler beim Lesen der Konfiguration."
+
+# Holidays
+msgid "New Year"
+msgstr "Neujahr"
+
+msgid "Labour Day"
+msgstr "Tag der Arbeit"
+
+msgid "Day of German Unity"
+msgstr "Tag der deutschen Einheit"
+
+msgid "Reformation Day"
+msgstr "Reformationstag"
+
+msgid "Christmas Day"
+msgstr "1. Weihnachtsfeiertag"
+
+msgid "Boxing Day"
+msgstr "2. Weihnachtsfeiertag"
+
+msgid "Good Friday"
+msgstr "Karfreitag"
+
+msgid "Easter Monday"
+msgstr "Ostermontag"
+
+msgid "Ascension Day"
+msgstr "Christi Himmelfahrt"
+
+msgid "Whit Monday"
+msgstr "Pfingstmontag"
+
+# Agenda
+msgid "Birthday of"
+msgstr "Geburtstag von:"

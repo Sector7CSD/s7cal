@@ -10,14 +10,8 @@ std::string Utils::stripAnsiEscapeCodes(const std::string &input)
     return std::regex_replace(input, ansi_regex, "");
 }
 
-std::vector<std::string> Utils::mergeColumnsWithPadding(const std::vector<std::vector<std::string>> &columns,
-                                                        int spacing)
+void Utils::getMaximumLineLength(const std::vector<std::vector<std::string>> &columns, size_t & maxLineLength, size_t & maxLines)
 {
-    std::vector<std::string> result;
-
-    // Calculate the maximum of all rows from all columns
-    size_t maxLines = 0;
-    size_t maxLineLength = 0;
     for (const auto &col : columns)
     {
         if (col.size() > maxLines)
@@ -33,9 +27,19 @@ std::vector<std::string> Utils::mergeColumnsWithPadding(const std::vector<std::v
             }
         }
     }
+}
+
+std::vector<std::string> Utils::mergeColumnsWithPadding(const std::vector<std::vector<std::string>> &columns,
+                                                        size_t maxLineLength, const int spacing)
+{
+    std::vector<std::string> result;
+
+    // Calculate the maximum of all rows from all columns
+    size_t maxLines = 0;
+    getMaximumLineLength(columns, maxLineLength, maxLines);
 
     // Padding between the columns
-    std::string pad(spacing, ' ');
+    const std::string pad(spacing, ' ');
 
     // Merge rows together
     for (size_t i = 0; i < maxLines; ++i)
