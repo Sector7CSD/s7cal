@@ -20,8 +20,7 @@ void Utils::getMaximumLineLength(const std::vector<std::vector<std::string>> &co
         for(const auto& line : col)
         {
             auto undecoratedLine = stripAnsiEscapeCodes(line);
-            size_t lineLength = undecoratedLine.length();
-            if(lineLength > maxLineLength)
+            if(const size_t lineLength = undecoratedLine.length(); lineLength > maxLineLength)
             {
                 maxLineLength = lineLength;
             }
@@ -53,12 +52,10 @@ std::vector<std::string> Utils::mergeColumnsWithPadding(const std::vector<std::v
 
             // Calculate visible length
             std::string visible = stripAnsiEscapeCodes(part);
-            size_t visible_length = visible.length();
+            const size_t visible_length = visible.length();
 
-            size_t col_width = maxLineLength;
-
-            // Rechts auffüllen, damit alles bündig ist
-            if (visible_length < col_width)
+            // Fill in on the right so that everything is flush
+            if (const size_t col_width = maxLineLength; visible_length < col_width)
                 part += std::string(col_width - visible_length, ' ');
 
             line += part;
