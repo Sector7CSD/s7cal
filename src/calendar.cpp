@@ -122,7 +122,7 @@ std::stringstream Calendar::printMonth(int aMonth, int aYear) const
     std::tm now;
     now = *std::localtime(&timestamp);
 
-    int lineLength = (7 * 3) - 1;
+    int lineLength = 7 * 3 - 1;
     lineLength += showWeekNumbers ? 3 : 0;
 
     auto title = std::string(monthNames[aMonth]) + " " + std::to_string(aYear);
@@ -311,7 +311,7 @@ int Calendar::daysInMonth(const int year, const int month)
     int days_in_month = 31;
     if (month == 2)
     {
-        days_in_month = 28 + ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
+        days_in_month = 28 + (year % 4 == 0 && year % 100 != 0 || year % 400 == 0);
     }
     else if (month == 4 || month == 6 || month == 9 || month == 11)
     {
