@@ -5,7 +5,6 @@
 
 int main(int argc, char **argv)
 {
-    std::string appName = "s7cal";
     std::string versionString = appName + " v0.0.5";
 
     initLocalization(appName);
@@ -13,7 +12,7 @@ int main(int argc, char **argv)
     CLI::App app{appName};
     app.set_version_flag("-v,--version", versionString);
 
-    auto fmt = app.get_formatter();
+    const auto fmt = app.get_formatter();
     fmt->label("POSITIONALS", _("POSITIONALS"));
     fmt->label("OPTIONS", _("OPTIONS"));
 
@@ -41,8 +40,8 @@ int main(int argc, char **argv)
     {
         if (month == 0 || year == 0)
         {
-            std::time_t t = std::time(nullptr);
-            std::tm *now = std::localtime(&t);
+            const std::time_t t = std::time(nullptr);
+            const std::tm *now = std::localtime(&t);
             month = now->tm_mon + 1;
             year = now->tm_year + 1900;
         }

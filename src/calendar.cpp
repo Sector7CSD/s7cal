@@ -10,7 +10,7 @@
 #include "i18n.h"
 #include "three_month_view.h"
 
-Calendar::Calendar(int year, int month, bool threeMonthView, bool yearView, bool showWeekNumbers, bool showAgenda, Userconfig * pConfig)
+Calendar::Calendar(const int year, const int month, const bool threeMonthView, const bool yearView, const bool showWeekNumbers, const bool showAgenda, Userconfig * pConfig)
     : year(year), month(month), threeMonthView(threeMonthView), yearView(yearView), showWeekNumbers(showWeekNumbers), showAgenda(showAgenda), pConfig(pConfig)
 {
     holidays = getHolydays(year);
@@ -24,9 +24,9 @@ Calendar::Calendar(int year, int month, bool threeMonthView, bool yearView, bool
     };
 }
 
-void Calendar::print3Months(std::stringstream & ss, std::vector<std::string> left, std::vector<std::string> center, std::vector<std::string> right, size_t maxLineLength)
+void Calendar::print3Months(std::stringstream & ss, std::vector<std::string> left, std::vector<std::string> center, std::vector<std::string> right, const size_t maxLineLength)
 {
-    auto merged = Utils::mergeColumnsWithPadding({std::move(left), std::move(center), std::move(right)}, maxLineLength, 2);
+    const auto merged = Utils::mergeColumnsWithPadding({std::move(left), std::move(center), std::move(right)}, maxLineLength, 2);
     for (const auto& line : merged)
     {
         ss << line << '\n';
@@ -203,7 +203,7 @@ std::stringstream Calendar::printMonth(int aMonth, int aYear) const
 
 bool Calendar::handleToday(std::stringstream & ss, const std::tm & now, const std::tm & date)
 {
-    bool isToday = isSameDay(&now, &date);
+    const bool isToday = isSameDay(&now, &date);
     if (isToday)
     {
         colors::todayColor(ss);
@@ -214,7 +214,7 @@ bool Calendar::handleToday(std::stringstream & ss, const std::tm & now, const st
 
 bool Calendar::handleWeekend(std::stringstream & ss, const std::tm &date)
 {
-    bool isWeekend = date.tm_wday == 0 || date.tm_wday == 6;
+    const bool isWeekend = date.tm_wday == 0 || date.tm_wday == 6;
     if(isWeekend)
     {
         colors::weekendsColor(ss);
@@ -225,7 +225,7 @@ bool Calendar::handleWeekend(std::stringstream & ss, const std::tm &date)
 
 bool Calendar::handleHolidays(std::stringstream & ss, int aDay, int aMonth) const
 {
-    bool isHoliday = holidays.count({aMonth, aDay}) > 0;
+    const bool isHoliday = holidays.count({aMonth, aDay}) > 0;
     if (isHoliday)
     {
         colors::holidaysColor(ss);
@@ -322,7 +322,7 @@ int Calendar::daysInMonth(const int year, const int month)
     return days_in_month;
 }
 
-bool Calendar::handleBirthdays(std::stringstream & ss, int aDay, int aMonth) const
+bool Calendar::handleBirthdays(std::stringstream & ss, const int aDay, const int aMonth) const
 {
     if(pConfig != nullptr)
     {
@@ -349,10 +349,9 @@ bool Calendar::handleVacations(std::stringstream & ss, const std::tm &date) cons
         for (auto v : vacations)
         {
             std::tm current = date;
-            time_t curr_time = std::mktime(&current);
-            time_t from_time = std::mktime(&v.from);
-            time_t to_time = std::mktime(&v.to);
-            if (curr_time >= from_time && curr_time <= to_time)
+            const time_t curr_time = std::mktime(&current);
+            const time_t from_time = std::mktime(&v.from);
+            if (const time_t to_time = std::mktime(&v.to); curr_time >= from_time && curr_time <= to_time)
             {
                 isVacation = true;
                 colors::vacationsColor(ss);

@@ -23,7 +23,7 @@ class Userconfig
     std::vector<Vacation> vacations;
     std::vector<Birthday> birthdays;
 
-    tm parseDate(const std::string &dateStr, bool fix);
+    static tm parseDate(const std::string &dateStr, bool fix);
     void loadVacations(const YAML::Node &config);
     void loadBirthdays(const YAML::Node &config);
 
