@@ -276,15 +276,14 @@ std::stringstream Calendar::printAgenda(int aMonth, int aYear)
             date.tm_hour = 12;
             time_t curr_time = std::mktime(&date);
 
-            for (auto v : vacations)
+            for (auto [name, from, to] : vacations)
             {
-                time_t from_time = std::mktime(&v.from);
-                time_t to_time = std::mktime(&v.to);
-                if (curr_time >= from_time && curr_time <= to_time)
+                time_t from_time = std::mktime(&from);
+                if (time_t to_time = std::mktime(&to); curr_time >= from_time && curr_time <= to_time)
                 {
                     std::stringstream mess;
                     colors::vacationsColor(mess);
-                    mess << v.name << termcolor::reset;
+                    mess << name << termcolor::reset;
                     agenda[day].push_back(mess.str());
                 }
             }
