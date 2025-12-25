@@ -13,7 +13,7 @@
 Calendar::Calendar(const int year, const int month, const bool threeMonthView, const bool yearView, const bool showWeekNumbers, const bool showAgenda, Userconfig * pConfig)
     : year(year), month(month), threeMonthView(threeMonthView), yearView(yearView), showWeekNumbers(showWeekNumbers), showAgenda(showAgenda), pConfig(pConfig)
 {
-    holidays = getHolydays(year);
+    holidays = getHolidays(year);
 
     monthNames = {
         "",

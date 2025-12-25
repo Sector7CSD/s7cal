@@ -3,28 +3,30 @@
 #include <tuple>
 #include "i18n.h"
 
-static std::pair<int, int> ostersonntag(int jahr)
+static std::pair<int, int> getEasterSunday(const int year)
 {
-    int k = jahr / 100;
-    int m = 15 + ((3 * k + 3) / 4) - ((8 * k + 13) / 25);
-    int s = 2 - ((3 * k + 3) / 4);
-    int a = jahr % 19;
-    int d = (19 * a + m) % 30;
-    int r = (d + (a / 11)) / 29;
-    int og = 21 + d - r;
-    int sz = 7 - ((jahr + (jahr / 4) + s) % 7);
-    int oe = 7 - ((og - sz) % 7);
-    int ostertag = og + oe;
+    const int k = year / 100;
+    const int m = 15 + (3 * k + 3) / 4 - (8 * k + 13) / 25;
+    const int s = 2 - (3 * k + 3) / 4;
+    const int a = year % 19;
+    const int d = (19 * a + m) % 30;
+    const int r = (d + a / 11) / 29;
+    const int og = 21 + d - r;
+    const int sz = 7 - (year + year / 4 + s) % 7;
+    const int oe = 7 - (og - sz) % 7;
+    const int easterSunday = og + oe;
 
-    if (ostertag > 31)
-        return {4, ostertag - 31};
-    return {3, ostertag};
+    if (easterSunday > 31)
+        return {4, easterSunday - 31};
+
+    return {3, easterSunday};
 }
 
-std::map<std::pair<int, int>, std::string> getHolydays(int jahr)
+std::map<std::pair<int, int>, std::string> getHolidays(const int year)
 {
     std::map<std::pair<int, int>, std::string> result;
-    // feste Feiertage
+
+    // fixed holidays
     result[{1, 1}] = _("New Year");
     result[{5, 1}] = _("Labour Day");
     result[{10, 3}] = _("Day of German Unity");
@@ -32,15 +34,15 @@ std::map<std::pair<int, int>, std::string> getHolydays(int jahr)
     result[{12, 25}] = _("Christmas Day");
     result[{12, 26}] = _("Boxing Day");
 
-    // bewegliche Feiertage
-    auto [om, od] = ostersonntag(jahr);
+    // movable holidays
+    auto [om, od] = getEasterSunday(year);
     std::tm o = {};
-    o.tm_year = jahr - 1900;
+    o.tm_year = year - 1900;
     o.tm_mon = om - 1;
     o.tm_mday = od;
     std::mktime(&o);
 
-    auto add_rel = [&](int offset, const std::string& name) {
+    auto add_rel = [&](const int offset, const std::string& name) {
         std::tm temp = o;
         temp.tm_mday += offset;
         std::mktime(&temp);

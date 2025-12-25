@@ -5,7 +5,8 @@
 
 int main(int argc, char **argv)
 {
-    std::string versionString = appName + " v0.0.5";
+    const std::string appName = "s7cal";
+    const std::string versionString = appName + " v0.0.6";
 
     initLocalization(appName);
 
