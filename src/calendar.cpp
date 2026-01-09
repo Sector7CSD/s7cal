@@ -117,10 +117,7 @@ std::stringstream Calendar::printMonth(int aMonth, int aYear) const
     first_day.tm_year = aYear - 1900;
     std::mktime(&first_day);
 
-    time_t timestamp;
-    time(&timestamp);
-    std::tm now;
-    now = *std::localtime(&timestamp);
+    tm now = getNow();
 
     int lineLength = 7 * 3 - 1;
     lineLength += showWeekNumbers ? 3 : 0;
@@ -212,6 +209,17 @@ bool Calendar::handleToday(std::stringstream & ss, const std::tm & now, const st
     return isToday;
 }
 
+bool Calendar::handleToday(std::stringstream &ss, const tm &now, const int day, const int month, const int year)
+{
+    const bool isToday = isSameDay(&now, day, month, year);
+    if (isToday)
+    {
+        colors::todayColor(ss);
+    }
+
+    return isToday;
+}
+
 bool Calendar::handleWeekend(std::stringstream & ss, const std::tm &date)
 {
     const bool isWeekend = date.tm_wday == 0 || date.tm_wday == 6;
@@ -238,6 +246,8 @@ std::stringstream Calendar::printAgenda(int aMonth, int aYear)
 {
     std::map<int, std::vector<std::string>> agenda;
 
+    std::tm now = getNow();
+
     // Holidays
     for (auto const& [date, name] : holidays)
     {
@@ -245,6 +255,7 @@ std::stringstream Calendar::printAgenda(int aMonth, int aYear)
         {
             std::stringstream mess;
             colors::holidaysColor(mess);
+            handleToday(mess, now, date.second, aMonth, aYear);
             mess << name << termcolor::reset;
             agenda[date.second].push_back(mess.str());
         }
@@ -260,6 +271,7 @@ std::stringstream Calendar::printAgenda(int aMonth, int aYear)
                 std::stringstream mess;
                 mess << _("Birthday of") << " ";
                 colors::birthdaysColor(mess);
+                handleToday(mess, now, bday.day, aMonth, aYear);
                 mess << bday.name << termcolor::reset;
                 agenda[bday.day].push_back(mess.str());
             }
@@ -283,6 +295,7 @@ std::stringstream Calendar::printAgenda(int aMonth, int aYear)
                 {
                     std::stringstream mess;
                     colors::vacationsColor(mess);
+                    handleToday(mess, now, date);
                     mess << name << termcolor::reset;
                     agenda[day].push_back(mess.str());
                 }
@@ -304,6 +317,15 @@ std::stringstream Calendar::printAgenda(int aMonth, int aYear)
     }
 
     return ss;
+}
+
+std::tm Calendar::getNow()
+{
+    time_t timestamp;
+    time(&timestamp);
+    const std::tm now = *std::localtime(&timestamp);
+
+    return now;
 }
 
 int Calendar::daysInMonth(const int year, const int month)
@@ -368,4 +390,14 @@ bool Calendar::isSameDay(const std::tm *date1, const std::tm *date2)
            date1->tm_mday == date2->tm_mday &&
            date1->tm_mon == date2->tm_mon &&
            date1->tm_year == date2->tm_year;
+}
+
+bool Calendar::isSameDay(const std::tm *date1, const int day, const int month, const int year)
+{
+    const bool result = date1 &&
+           date1->tm_mday == day &&
+           date1->tm_mon == (month - 1) &&
+           date1->tm_year == (year - 1900);
+
+    return result;
 }
