@@ -48,4 +48,4 @@ endif()
 
 target_include_directories(s7cal PRIVATE ${termcolor_SOURCE_DIR}/include)
 
-target_link_libraries(s7cal PRIVATE CLI11::CLI11 yaml-cpp)
+target_link_libraries(s7cal PRIVATE CLI11::CLI11 yaml-cpp::yaml-cpp)
