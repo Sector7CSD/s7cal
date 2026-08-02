@@ -3,6 +3,7 @@
 //
 
 #include "utils.h"
+#include <sstream>
 
 std::string Utils::stripAnsiEscapeCodes(const std::string &input)
 {
